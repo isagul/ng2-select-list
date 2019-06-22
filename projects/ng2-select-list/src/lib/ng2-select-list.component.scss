@@ -1,0 +1,93 @@
+#multiple-select {
+  display: block;
+  width: 100%;
+  border: 1px solid gainsboro;
+  height: 33px;
+  border-radius: 3px;
+  color: dimgray;
+  font-size: 15px;
+  > div {
+    padding-top: 5px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    p {
+      font-size: 14px;
+    }
+  }
+  ul {
+    position: relative;
+    z-index: 9999;
+    list-style-type: none;
+    padding-left: 0;
+    background-color: white;
+    overflow-y: scroll;
+    height: 20vh;
+    margin-top: -8px;
+    border: 1px solid gainsboro;
+
+    li {
+      padding-left: 10px;
+      padding-top: 6px;
+      //padding-bottom: 4px;
+    }
+    .list-input-filter {
+      margin:2px;
+    }
+    li.list-all-option-multiple {
+      //margin-top: 10px;
+    }
+    li.list-all-option-not-multiple {
+      padding-left: 0;
+    }
+    .not-multiple {
+      padding-left: 10px;
+    }
+  }
+
+  .result-div {
+    li {
+      &:hover {
+        background-color: darkslateblue;
+        label {
+          color:white;
+        }
+        .m-checkbox {
+          span {
+            &:after {
+              border: solid white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .no-result-div {
+    height: 4vh;
+    overflow-y: auto;
+    li {
+      font-size:13px;
+      padding-top: 8px;
+    }
+  }
+
+  #filterInput {
+    height:35px;
+    padding: 4px 4px 4px 8px;
+  }
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.let-click-select {
+  pointer-events: all;
+}
+
+.block-click-select {
+  pointer-events:none;
+  background-color: lightgray;
+}

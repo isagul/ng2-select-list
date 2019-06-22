@@ -1,0 +1,61 @@
+<div id="multiple-select" (click)="openDropdown()">
+  <div>
+    <ng-template [ngIf]="multiple">
+      <p *ngIf="!isChangeSelectListPlaceHolder">{{placeholder}}</p>
+      <p *ngIf="isChangeSelectListPlaceHolder">
+        {{checkedItemCount()}} item/s checked
+      </p>
+    </ng-template>
+    <ng-template [ngIf]="!multiple">
+      <p *ngIf="!isChangeSelectListPlaceHolder">{{placeholder}}</p>
+      <p *ngIf="isChangeSelectListPlaceHolder">
+        {{selectedOption}}
+      </p>
+    </ng-template>
+    <i [ngClass]="isDropDownOpen ? 'fa fa-caret-up' : 'fa fa-caret-down'" aria-hidden="true" style="
+            padding-right: 15px;
+            font-size: 18px;">
+    </i>
+  </div>
+  <ng-template [ngIf]="options.length > 0">
+    <ul *ngIf="isDropDownOpen" class="result-div">
+      <div *ngIf="isFilterOption" class="list-input-filter">
+        <input id="filterInput" type="text" class="form-control" autofocus [placeholder]="filterPlaceholder" (input)="filterOptions()" [(ngModel)]="filterValue"/>
+      </div>
+      <ng-template [ngIf]="multiple" class="multiple">
+        <li class="list-all-option-multiple">
+          <label class="m-checkbox">
+            <input type="checkbox" (change)="allChecked($event)" [checked]="isAllChecked">
+            {{allOption.label}}
+            <span></span>
+          </label>
+        </li>
+        <li *ngFor="let account of filteredOptions" (click)="onTouched()">
+          <label class="m-checkbox">
+            <input type="checkbox" (change)="selectAccount($event, account)" [checked]="account.checked">
+            {{account.label}}
+            <span></span>
+          </label>
+        </li>
+      </ng-template>
+      <ng-template [ngIf]="!multiple">
+        <li class="list-all-option-not-multiple" (click)="getOneClickedAll('ALL')">
+          <label class="m-checkbox not-multiple">
+            {{allOption.label}}
+          </label>
+        </li>
+        <li *ngFor="let account of filteredOptions" (click)="onTouched(); getOneClickedAccount(account)" class="list-all-option-not-multiple">
+          <label class="m-checkbox not-multiple">
+            {{account.label}}
+          </label>
+        </li>
+      </ng-template>
+    </ul>
+  </ng-template>
+
+  <ng-template [ngIf]="options.length === 0">
+    <ul *ngIf="isDropDownOpen" class="no-result-div">
+      <li>{{noResultMessage}}</li>
+    </ul>
+  </ng-template>
+</div>
