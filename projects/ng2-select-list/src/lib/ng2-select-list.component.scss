@@ -1,6 +1,8 @@
+
+
 #multiple-select {
   display: block;
-  width: 100%;
+  width: 12%;
   border: 1px solid gainsboro;
   height: 33px;
   border-radius: 3px;
@@ -14,6 +16,10 @@
     justify-content: space-between;
     p {
       font-size: 14px;
+      margin-top: 5px;
+    }
+    i {
+      margin-right: 5px;
     }
   }
   ul {
@@ -49,7 +55,7 @@
   .result-div {
     li {
       &:hover {
-        background-color: darkslateblue;
+        background-color: lightgray;
         label {
           color:white;
         }
@@ -76,6 +82,7 @@
   #filterInput {
     height:35px;
     padding: 4px 4px 4px 8px;
+    width:92%;
   }
 
   &:hover{

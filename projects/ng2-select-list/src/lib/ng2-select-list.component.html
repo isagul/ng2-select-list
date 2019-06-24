@@ -12,10 +12,9 @@
         {{selectedOption}}
       </p>
     </ng-template>
-    <i [ngClass]="isDropDownOpen ? 'fa fa-caret-up' : 'fa fa-caret-down'" aria-hidden="true" style="
-            padding-right: 15px;
-            font-size: 18px;">
-    </i>
+    <i class="material-icons" *ngIf="!isDropDownOpen">expand_more</i>
+    <i class="material-icons" *ngIf="isDropDownOpen">expand_less</i>
+
   </div>
   <ng-template [ngIf]="options.length > 0">
     <ul *ngIf="isDropDownOpen" class="result-div">
@@ -24,30 +23,34 @@
       </div>
       <ng-template [ngIf]="multiple" class="multiple">
         <li class="list-all-option-multiple">
-          <label class="m-checkbox">
+          <!--<label class="m-checkbox">
             <input type="checkbox" (change)="allChecked($event)" [checked]="isAllChecked">
             {{allOption.label}}
             <span></span>
-          </label>
+          </label>-->
+          <mat-checkbox (change)="allChecked($event)" [checked]="isAllChecked">{{allOption.label}}</mat-checkbox>
         </li>
         <li *ngFor="let account of filteredOptions" (click)="onTouched()">
-          <label class="m-checkbox">
+          <!--<label class="m-checkbox">
             <input type="checkbox" (change)="selectAccount($event, account)" [checked]="account.checked">
             {{account.label}}
             <span></span>
-          </label>
+          </label>-->
+          <mat-checkbox (change)="selectAccount($event, account)" [checked]="account.checked">{{account.label}}</mat-checkbox>
         </li>
       </ng-template>
       <ng-template [ngIf]="!multiple">
         <li class="list-all-option-not-multiple" (click)="getOneClickedAll('ALL')">
-          <label class="m-checkbox not-multiple">
+          <!--<label class="m-checkbox not-multiple">
             {{allOption.label}}
-          </label>
+          </label>-->
+          <mat-checkbox class="not-multiple">{{allOption.label}}</mat-checkbox>
         </li>
         <li *ngFor="let account of filteredOptions" (click)="onTouched(); getOneClickedAccount(account)" class="list-all-option-not-multiple">
-          <label class="m-checkbox not-multiple">
+          <!--<label class="m-checkbox not-multiple">
             {{account.label}}
-          </label>
+          </label>-->
+          <mat-checkbox class="not-multiple">{{account.label}}</mat-checkbox>
         </li>
       </ng-template>
     </ul>

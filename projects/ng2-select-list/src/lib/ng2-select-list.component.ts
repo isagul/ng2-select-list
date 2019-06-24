@@ -159,7 +159,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     this.filterInputChanged.emit(this.filterValue);
   }
   selectAccount(ev, account) {
-    if (ev.target.checked) {
+    if (ev.checked) {
       this.selectedAccounts.push(account.value);
       account.checked = true;
     } else {
@@ -180,7 +180,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   allChecked(ev) {
-    if (ev.target.checked) {
+    if (ev.checked) {
       this.filteredOptions.map(option => {
         option.checked = true;
       });
