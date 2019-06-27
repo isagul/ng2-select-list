@@ -1,4 +1,4 @@
-<div id="multiple-select" (click)="openDropdown()">
+<div id="multiple-select" (click)="onSelectContainerClick($event)">
   <div>
     <ng-template [ngIf]="multiple">
       <p *ngIf="!isChangeSelectListPlaceHolder">{{placeholder}}</p>
@@ -9,7 +9,7 @@
     <ng-template [ngIf]="!multiple">
       <p *ngIf="!isChangeSelectListPlaceHolder">{{placeholder}}</p>
       <p *ngIf="isChangeSelectListPlaceHolder">
-        {{selectedOption}}
+        {{selectedOption.label}}
       </p>
     </ng-template>
     <i class="material-icons" *ngIf="!isDropDownOpen">expand_more</i>
@@ -19,38 +19,28 @@
   <ng-template [ngIf]="options.length > 0">
     <ul *ngIf="isDropDownOpen" class="result-div">
       <div *ngIf="isFilterOption" class="list-input-filter">
-        <input id="filterInput" type="text" class="form-control" autofocus [placeholder]="filterPlaceholder" (input)="filterOptions()" [(ngModel)]="filterValue"/>
+        <input id="filterInput" (click)="clickedInput($event)" type="text" class="form-control" #filterInput [placeholder]="filterPlaceholder" (input)="filterOptions()" [(ngModel)]="filterValue"/>
       </div>
+      <!-- MULTIPLE DROPDOWN -->
       <ng-template [ngIf]="multiple" class="multiple">
         <li class="list-all-option-multiple">
-          <!--<label class="m-checkbox">
-            <input type="checkbox" (change)="allChecked($event)" [checked]="isAllChecked">
-            {{allOption.label}}
-            <span></span>
-          </label>-->
           <mat-checkbox (change)="allChecked($event)" [checked]="isAllChecked">{{allOption.label}}</mat-checkbox>
         </li>
         <li *ngFor="let account of filteredOptions" (click)="onTouched()">
-          <!--<label class="m-checkbox">
-            <input type="checkbox" (change)="selectAccount($event, account)" [checked]="account.checked">
-            {{account.label}}
-            <span></span>
-          </label>-->
           <mat-checkbox (change)="selectAccount($event, account)" [checked]="account.checked">{{account.label}}</mat-checkbox>
         </li>
       </ng-template>
+      <!-- NOT MULTIPLE DROPDOWN -->
       <ng-template [ngIf]="!multiple">
-        <li class="list-all-option-not-multiple" (click)="getOneClickedAll('ALL')">
-          <!--<label class="m-checkbox not-multiple">
+        <li class="list-all-option-not-multiple" (click)="getOneClickedAll(allOption)">
+          <label class="not-multiple">
             {{allOption.label}}
-          </label>-->
-          <mat-checkbox class="not-multiple">{{allOption.label}}</mat-checkbox>
+          </label>
         </li>
         <li *ngFor="let account of filteredOptions" (click)="onTouched(); getOneClickedAccount(account)" class="list-all-option-not-multiple">
-          <!--<label class="m-checkbox not-multiple">
+          <label class="not-multiple">
             {{account.label}}
-          </label>-->
-          <mat-checkbox class="not-multiple">{{account.label}}</mat-checkbox>
+          </label>
         </li>
       </ng-template>
     </ul>

@@ -2,12 +2,14 @@
 
 #multiple-select {
   display: block;
-  width: 12%;
+  width: 25%;
   border: 1px solid gainsboro;
   height: 33px;
   border-radius: 3px;
   color: dimgray;
   font-size: 15px;
+  margin-left: auto;
+  margin-right: auto;
   > div {
     padding-top: 5px;
     padding-left: 10px;
@@ -29,13 +31,12 @@
     padding-left: 0;
     background-color: white;
     overflow-y: scroll;
-    height: 20vh;
+    height: 35vh;
     margin-top: -8px;
     border: 1px solid gainsboro;
 
     li {
-      padding-left: 10px;
-      padding-top: 6px;
+      padding:10px 0 10px 10px;
       //padding-bottom: 4px;
     }
     .list-input-filter {
@@ -55,14 +56,18 @@
   .result-div {
     li {
       &:hover {
-        background-color: lightgray;
+        background-color: cornflowerblue;
+        color: white;
+        cursor: pointer;
         label {
           color:white;
         }
-        .m-checkbox {
-          span {
-            &:after {
-              border: solid white;
+        .mat-checkbox {
+          .mat-checkbox-layout {
+            .mat-checkbox-inner-container {
+              .mat-checkbox-frame {
+                border-color:red !important;
+              }
             }
           }
         }
@@ -80,13 +85,16 @@
   }
 
   #filterInput {
-    height:35px;
+    height:25px;
     padding: 4px 4px 4px 8px;
     width:92%;
   }
 
   &:hover{
     cursor: pointer;
+  }
+  &:focus {
+    outline: 0;
   }
 }
 

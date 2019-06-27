@@ -1,9 +1,22 @@
-<form [formGroup]='formElements'>
+<form [formGroup]='formElements' class="form-group">
   <lib-ng2-select-list
     formControlName="account"
     [multiple]="true"
     [options]="accountList"
     placeholder="Change Account"
+    [isAllSelect]="false"
+    [isFilterOption]="true"
+    (selected)="getClickedAccount($event)"
+    filterPlaceholder="Search Accounts..."
+    [disabled]="false"
+    noResultMessage="No result found"
+  ></lib-ng2-select-list>
+
+  <lib-ng2-select-list
+    formControlName="site"
+    [multiple]="false"
+    [options]="accountList"
+    placeholder="Change Site"
     [isAllSelect]="false"
     [isFilterOption]="true"
     (selected)="getClickedAccount($event)"

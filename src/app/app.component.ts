@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.formElements = this.frmBuilder.group({
       account: ['', [Validators.required]],
+      site: ['', [Validators.required]],
     });
   }
 
