@@ -1,29 +1,79 @@
-<form [formGroup]='formElements' class="form-group">
-  <lib-ng2-select-list
-    formControlName="account"
-    [multiple]="true"
-    [options]="accountList"
-    placeholder="Change Account"
-    [isAllSelect]="false"
-    [isFilterOption]="true"
-    (selected)="getClickedAccount($event)"
-    filterPlaceholder="Search Accounts..."
-    [disabled]="false"
-    noResultMessage="No result found"
-  ></lib-ng2-select-list>
+<!--<h1>FEATURES</h1>
+<ul>
+  <li>Multiple</li>
+  <li>Multiple</li>
+  <li>Multiple</li>
+  <li>Multiple</li>
+  <li>Multiple</li>
+  <li>Multiple</li>
+</ul>-->
 
-  <lib-ng2-select-list
-    formControlName="site"
-    [multiple]="false"
-    [options]="accountList"
-    placeholder="Change Site"
-    [isAllSelect]="false"
-    [isFilterOption]="true"
-    (selected)="getClickedAccount($event)"
-    filterPlaceholder="Search Accounts..."
-    [disabled]="false"
-    noResultMessage="No result found"
-  ></lib-ng2-select-list>
+<h1>ANGULAR SELECT LIST</h1>
+
+<form [formGroup]='formElements' class="form-group">
+  <div>
+    <h3>MULTIPLE & FILTER</h3>
+    <lib-ng2-select-list
+      formControlName="account"
+      [multiple]="true"
+      [options]="accountList"
+      placeholder="Change Account"
+      [isAllSelect]="false"
+      [isFilterOption]="true"
+      (selected)="getClickedAccount()"
+      filterPlaceholder="Search Accounts..."
+      [disabled]="false"
+      noResultMessage="No result found"
+    ></lib-ng2-select-list>
+  </div>
+
+  <div>
+    <h3>MULTIPLE & NO FILTER</h3>
+    <lib-ng2-select-list
+      formControlName="account"
+      [multiple]="true"
+      [options]="siteList"
+      placeholder="Change Account"
+      [isAllSelect]="false"
+      [isFilterOption]="false"
+      (selected)="getClickedAccount()"
+      [disabled]="false"
+      noResultMessage="No result found"
+    ></lib-ng2-select-list>
+  </div>
+
+  <div>
+    <h3>NOT MULTIPLE & FILTER</h3>
+    <lib-ng2-select-list
+      formControlName="site"
+      [multiple]="false"
+      [options]="accountList"
+      placeholder="Change Sites"
+      [isAllSelect]="false"
+      [isFilterOption]="true"
+      (selected)="getClickedSite()"
+      filterPlaceholder="Search Sites..."
+      [disabled]="false"
+      noResultMessage="No result found"
+    ></lib-ng2-select-list>
+  </div>
+
+  <div>
+    <h3>NOT MULTIPLE & NO FILTER</h3>
+    <lib-ng2-select-list
+      formControlName="site"
+      [multiple]="false"
+      [options]="accountList"
+      placeholder="Change Sites"
+      [isAllSelect]="false"
+      [isFilterOption]="false"
+      (selected)="getClickedSite()"
+      [disabled]="false"
+      noResultMessage="No result found"
+    ></lib-ng2-select-list>
+  </div>
+
+
 </form>
 
 

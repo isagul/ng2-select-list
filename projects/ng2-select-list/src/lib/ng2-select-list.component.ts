@@ -6,7 +6,7 @@ import {
   Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output, ViewChild
+  Output, QueryList, ViewChild, ViewChildren
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BehaviorSubject} from 'rxjs';
@@ -28,15 +28,13 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   @Input() options: any = [];
   optionSubject = new BehaviorSubject([]);
   @Input() placeholder: string;
-  // @Input() allowClear: boolean;
   @Input() disabled: boolean;
   @Input() isFilterOption: boolean;
   @Input() isAllSelect: boolean;
   @Input() filterPlaceholder: string;
   @Input() noResultMessage = 'No result !';
-  @Input() multiple: boolean;
+  @Input() multiple = false;
   @Output() selected = new EventEmitter();
-  // @Output() allSelected = new EventEmitter();
   @Output() filterInputChanged = new EventEmitter();
   @Output() focus = new EventEmitter();
   @Output() blur = new EventEmitter();
@@ -52,7 +50,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     label: 'ALL'
   };
 
-  @ViewChild('filterInput', {static: false}) filterInput: ElementRef;
+  // @ViewChildren('filterInput') filterInput: QueryList<any>;
   hasFocus = false;
   private clearClicked = false;
   private selectContainerClicked = false;
@@ -92,19 +90,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   set value(v) {
-    /*if (typeof v === 'undefined' || v === null) {
-        v = [];
-    }
-    else if (typeof v === 'string') {
-        v = [v];
-    }
-    else if (!Array.isArray(v)) {
-        throw new TypeError('Value must be a string or an array.');
-    }*/
-
-    // this.optionList.value = v;
     this._value = v;
-    // this.updateState();
   }
 
   @HostListener('window:click')
@@ -122,7 +108,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     this.optionClicked = false;
   }
 
-  onSelectContainerClick(event: any) {
+  onSelectContainerClick(event) {
     this.selectContainerClicked = true;
     if (!this.clearClicked) {
       this.toggleDropdown();
@@ -159,25 +145,26 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
         option.checked = false;
       });
     }
+    /*if (this.isDropDownOpen) {
+      this.filterInput.changes.subscribe(res => {
+        console.log(res.first.nativeElement);
+      });
+    }*/
   }
 
   private toggleDropdown() {
-    console.log('isDropDownOpen', this.isDropDownOpen);
-    console.log('multiple', this.multiple);
-    if (this.multiple === undefined) {
-      this.isDropDownOpen ? this.closeDropdown() : this.openDropdown();
+    /*console.log('isDropDownOpen', this.isDropDownOpen);
+    console.log('multiple', this.multiple);*/
+    if (this.multiple) {
+      this.isDropDownOpen = true;
     } else {
-      if (this.multiple && !this.isDropDownOpen) {
+      if (!this.isDropDownOpen) {
         this.openDropdown();
+      } else {
+        this.closeDropdown();
       }
-      if (!this.multiple && !this.isDropDownOpen) {
-        this.openDropdown();
-      }
-      /*else {
-                this.closeDropdown(true);
-            }*/
     }
-    console.log('isDropDownOpen', this.isDropDownOpen);
+    // console.log('isDropDownOpen', this.isDropDownOpen);
   }
 
   private openDropdown() {
@@ -225,6 +212,7 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   selectAccount(ev, account) {
+    this.isDropDownOpen = true;
     if (ev.checked) {
       this.selectedAccounts.push(account.value);
       account.checked = true;
@@ -253,12 +241,13 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
       this.writeValue('ALL');
       this.selected.emit('ALL');
     } else {
+      this.selectedAccounts = [];
       this.filteredOptions.map(option => {
         option.checked = false;
       });
       this.isAllChecked = false;
-      this.writeValue('');
-      this.selected.emit('');
+      this.writeValue([]);
+      this.selected.emit([]);
     }
     this.isChangeSelectListPlaceHolder = this.options.some(option => {
       return option.checked;
@@ -281,24 +270,16 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     });
     return count;
   }
-
-
   /* NOT MULTIPLE */
 
   getOneClickedAccount(ev) {
-    this.isDropDownOpen = false;
     this.selectedOption = ev;
-    this.toggleDropdown();
     this.isChangeSelectListPlaceHolder = true;
     this.selected.emit(ev.value);
     this.writeValue(ev.value);
   }
 
   getOneClickedAll(ev) {
-    // console.log(this.isDropDownOpen);
-    // this.isDropDownOpen = false;
-    this.closeDropdown();
-    // console.log(this.isDropDownOpen);
     this.selectedOption = ev;
     this.isChangeSelectListPlaceHolder = true;
     this.selected.emit(ev.value);

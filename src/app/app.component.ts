@@ -10,18 +10,32 @@ export class AppComponent implements OnInit {
   formElements: FormGroup; // form elements.
   title = 'ng-select-list';
   public accountList = [
-    {value: 1, label: 'tom100', checked: false},
-    {value: 2, label: 'tom200', checked: false},
-    {value: 3, label: 'tom300', checked: false},
-    {value: 4, label: 'tom400', checked: false},
-    {value: 5, label: 'tom500', checked: false},
-    {value: 6, label: 'tom600', checked: false},
-    {value: 7, label: 'tom700', checked: false},
-    {value: 8, label: 'tom800', checked: false},
-    {value: 9, label: 'tom900', checked: false},
+    {value: 100, label: 'test100', checked: false},
+    {value: 200, label: 'test200', checked: false},
+    {value: 300, label: 'test300', checked: false},
+    {value: 400, label: 'test400', checked: false},
+    {value: 500, label: 'test500', checked: false},
+    {value: 600, label: 'test600', checked: false},
+    {value: 700, label: 'test700', checked: false},
+    {value: 800, label: 'test800', checked: false},
+    {value: 900, label: 'test900', checked: false},
   ];
 
-  constructor(private frmBuilder: FormBuilder) {}
+  public siteList = [
+    {value: 100, label: 'test100', checked: false},
+    {value: 200, label: 'test200', checked: false},
+    {value: 300, label: 'test300', checked: false},
+    {value: 400, label: 'test400', checked: false},
+    {value: 500, label: 'test500', checked: false},
+    {value: 600, label: 'test600', checked: false},
+    {value: 700, label: 'test700', checked: false},
+    {value: 800, label: 'test800', checked: false},
+    {value: 900, label: 'test900', checked: false},
+  ];
+
+  constructor(
+    private frmBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.formElements = this.frmBuilder.group({
@@ -30,8 +44,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getClickedAccount(ev) {
-    console.log(ev);
-    console.log('form elements', this.formElements.get('account').value);
+  getClickedAccount() {
+    console.log('form elements account => ', this.formElements.get('account').value);
+  }
+
+  getClickedSite() {
+    console.log('form elements site => ', this.formElements.get('site').value);
   }
 }

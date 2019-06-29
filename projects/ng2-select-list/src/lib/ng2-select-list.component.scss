@@ -2,26 +2,27 @@
 
 #multiple-select {
   display: block;
-  width: 25%;
+  width: 50%;
   border: 1px solid gainsboro;
-  height: 33px;
+  // height: 33px;
   border-radius: 3px;
   color: dimgray;
   font-size: 15px;
   margin-left: auto;
   margin-right: auto;
   > div {
-    padding-top: 5px;
     padding-left: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     p {
       font-size: 14px;
-      margin-top: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
     i {
       margin-right: 5px;
+      margin-top: 5px;
     }
   }
   ul {
@@ -31,8 +32,9 @@
     padding-left: 0;
     background-color: white;
     overflow-y: scroll;
-    height: 35vh;
-    margin-top: -8px;
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 27vh;
     border: 1px solid gainsboro;
 
     li {
@@ -62,15 +64,6 @@
         label {
           color:white;
         }
-        .mat-checkbox {
-          .mat-checkbox-layout {
-            .mat-checkbox-inner-container {
-              .mat-checkbox-frame {
-                border-color:red !important;
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -80,7 +73,6 @@
     overflow-y: auto;
     li {
       font-size:13px;
-      padding-top: 8px;
     }
   }
 

@@ -3,3 +3,19 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+.result-div {
+  li {
+    &:hover {
+      .mat-checkbox {
+        .mat-checkbox-layout {
+          .mat-checkbox-inner-container {
+            .mat-checkbox-frame {
+              border-color:white;
+            }
+          }
+        }
+      }
+    }
+  }
+}
