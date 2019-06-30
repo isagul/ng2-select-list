@@ -1,3 +1,51 @@
+##Features
+- [x] Custom binding to property or object
+- [x] Custom option, label, header and footer templates
+- [x] Multiselect
+- [x] Flexible autocomplete 
+- [x] Custom search
+
+##Installation
+####Install ng2-select-list
+```
+  npm install --save ng-select-list
+```
+####Import Ng2SelectListModule and FormsModule modules:
+```javascript
+  import { Ng2SelectListModule } from '@ng-select/ng-select';
+  import { FormsModule } from '@angular/forms';
+  
+  @NgModule({
+    declarations: [AppComponent],
+    imports: [Ng2SelectListModule, FormsModule],
+    bootstrap: [AppComponent]
+  })
+  export class AppModule {}
+```
+
+#API
+#####Inputs
+| Input  | Type | Default | Required | Description
+| ------------- | ------------- | ------------- | ------------- | -------------
+| options  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| multiple  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| placeholder  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| disabled  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| isFilterOption  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| isAllSelect  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| filterPlaceholder  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| noResultMessage  | Content Cell  | Content Cell | Content Cell | Content Cell 
+
+#####Outputs
+| Output  | Type | Default | Required | Description
+| ------------- | ------------- | ------------- | ------------- | -------------
+| selected  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| filterInputChanged  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| focus  | Content Cell  | Content Cell | Content Cell | Content Cell 
+| blur  | Content Cell  | Content Cell | Content Cell | Content Cell 
+
+####Inspiration
+This component is inspired by ng-select. Check their amazing work and components :)
 # NgSelectList
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
