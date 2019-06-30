@@ -24,15 +24,13 @@ import {BehaviorSubject} from 'rxjs';
   ],
 })
 export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, ControlValueAccessor {
-  public isDropDownOpen = false;
   @Input() options: any = [];
-  optionSubject = new BehaviorSubject([]);
-  @Input() placeholder: string;
-  @Input() disabled: boolean;
-  @Input() isFilterOption: boolean;
-  @Input() isAllSelect: boolean;
-  @Input() filterPlaceholder: string;
-  @Input() noResultMessage = 'No result !';
+  @Input() placeholder = 'Choose item';
+  @Input() disabled = false;
+  @Input() isFilterOption = false;
+  @Input() isAllSelect = false;
+  @Input() filterPlaceholder = 'Search...';
+  @Input() noResultMessage = 'No result!';
   @Input() multiple = false;
   @Output() selected = new EventEmitter();
   @Output() filterInputChanged = new EventEmitter();
@@ -49,6 +47,8 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     value: 'ALL',
     label: 'ALL'
   };
+  public optionSubject = new BehaviorSubject([]);
+  public isDropDownOpen = false;
 
   // @ViewChildren('filterInput') filterInput: QueryList<any>;
   hasFocus = false;

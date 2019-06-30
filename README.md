@@ -1,16 +1,18 @@
-##Features
-- [x] Custom binding to property or object
-- [x] Custom option, label, header and footer templates
-- [x] Multiselect
+# Angular ng2-select-list. Quick, simple and understandable
+
+## Features
+- [x] Custom binding to property
+- [x] A bridge between the Angular forms API and a native element in the DOM
+- [x] Multiselect checkbox using material theme
 - [x] Flexible autocomplete 
 - [x] Custom search
 
-##Installation
-####Install ng2-select-list
+## Installation
+#### Install ng2-select-list
 ```
   npm install --save ng-select-list
 ```
-####Import Ng2SelectListModule and FormsModule modules:
+#### Import Ng2SelectListModule and FormsModule modules:
 ```javascript
   import { Ng2SelectListModule } from '@ng-select/ng-select';
   import { FormsModule } from '@angular/forms';
@@ -23,53 +25,26 @@
   export class AppModule {}
 ```
 
-#API
-#####Inputs
-| Input  | Type | Default | Required | Description
-| ------------- | ------------- | ------------- | ------------- | -------------
-| options  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| multiple  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| placeholder  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| disabled  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| isFilterOption  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| isAllSelect  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| filterPlaceholder  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| noResultMessage  | Content Cell  | Content Cell | Content Cell | Content Cell 
+# API
+### Inputs
+| Input  | Type | Default | Description  
+| ------------- | ------------- | ------------- | -------------  
+| options  | Array<any>  | []  | Items array. 
+| multiple  | Boolean  | false  | Allows to select multiple items. 
+| placeholder  | String  | Choose item  | Placeholder text.
+| disabled  | Boolean  | false | Allows select list disable. 
+| isFilterOption  | boolean  | false | Allow to search for value.
+| isAllSelect  | booelan  | false |  Allows all option checked.   
+| filterPlaceholder  | String  | Search... | Search placeholder text.  
+| noResultMessage  | String  | No result! | Set custom text if items array empty.
 
-#####Outputs
-| Output  | Type | Default | Required | Description
-| ------------- | ------------- | ------------- | ------------- | -------------
-| selected  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| filterInputChanged  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| focus  | Content Cell  | Content Cell | Content Cell | Content Cell 
-| blur  | Content Cell  | Content Cell | Content Cell | Content Cell 
+### Outputs
+| Output  | Description  
+| ------------- | -------------  
+| selected  | It works when selected an item. It returns item's value.
+| filterInputChanged  | It works when typed into search input. It returns user's search text as string.
+| focus  | It works on select focus.
+| blur  | It works on select blur.
 
-####Inspiration
-This component is inspired by ng-select. Check their amazing work and components :)
-# NgSelectList
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+#### Inspiration
+This component is inspired by ng-select. Check their amazing work and components. :)
