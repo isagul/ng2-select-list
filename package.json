@@ -1,6 +1,24 @@
 {
   "name": "ng-select-list",
   "version": "0.0.0",
+  "description": "Quick, simple and understandable angular select list.",
+  "author": "Isa Gul",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isagul/ng2-select-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isagul/ng2-select-list/issues"
+  },
+  "homepage": "https://github.com/isagul/ng2-select-list",
+  "keywords": [
+    "angular",
+    "select-list",
+    "select",
+    "javascript",
+    "select-component"
+  ],
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +27,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^7.2.15",
     "@angular/cdk": "^8.0.1",

@@ -1,5 +1,7 @@
 # Angular ng2-select-list. Quick, simple and understandable
 
+[Live Demo](https://isagul.github.io/ng2-select-list)
+
 ## Features
 - [x] Custom binding to property
 - [x] A bridge between the Angular forms API and a native element in the DOM
