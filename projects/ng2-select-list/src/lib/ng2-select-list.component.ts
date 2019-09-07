@@ -1,15 +1,17 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component, ElementRef,
   EventEmitter,
   forwardRef, HostListener,
   Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output, QueryList, ViewChild, ViewChildren
+  Output, ViewChild,
+  SimpleChanges
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {BehaviorSubject} from 'rxjs';
+import {ControlValueAccessor, FormGroupDirective, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {BehaviorSubject, fromEvent} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'lib-ng2-select-list',
@@ -22,46 +24,44 @@ import {BehaviorSubject} from 'rxjs';
       multi: true
     }
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, ControlValueAccessor {
   @Input() options: any = [];
-  @Input() placeholder = 'Choose item';
-  @Input() disabled = false;
-  @Input() isFilterOption = false;
-  @Input() isAllSelect = false;
-  @Input() filterPlaceholder = 'Search...';
-  @Input() noResultMessage = 'No result!';
+  @Input() placeholder: string;
+  @Input() disabled: boolean;
+  @Input() isFilterOption: boolean;
+  @Input() filterPlaceholder: string;
+  @Input() noResultMessage: string;
   @Input() multiple = false;
+  @Input() crossButton = false;
   @Output() selected = new EventEmitter();
+  @Output() deSelected = new EventEmitter();
   @Output() filterInputChanged = new EventEmitter();
   @Output() focus = new EventEmitter();
   @Output() blur = new EventEmitter();
-  public isAllChecked = false;
   public filterValue = '';
   public filteredOptions = [];
   public isChangeSelectListPlaceHolder = false;
   public selectedAccounts = [];
-  private _value: Array<any> = [];
+  private values: Array<any> = [];
   public selectedOption: any;
-  public allOption = {
-    value: 'ALL',
-    label: 'ALL'
-  };
-  public optionSubject = new BehaviorSubject([]);
+  public isAllSelect: boolean;
+  public isSelectedAnItem = true;
+  optionSubject = new BehaviorSubject([]);
   public isDropDownOpen = false;
-
-  // @ViewChildren('filterInput') filterInput: QueryList<any>;
-  hasFocus = false;
-  private clearClicked = false;
-  private selectContainerClicked = false;
-  private optionListClicked = false;
-  private optionClicked = false;
-
+  @ViewChild('filterInput' , {static: false}) filterInput: ElementRef;
+  public hasFocus = false;
+  public clearClicked = false;
+  public selectContainerClicked = false;
+  public optionListClicked = false;
+  public optionClicked = false;
+  public allPlaceholder: string;
   onChange: any = () => {};
   onTouched: any = () => {};
 
   constructor() {
-
   }
 
   select(value) {
@@ -86,11 +86,11 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   get value() {
-    return this._value;
+    return this.values;
   }
 
   set value(v) {
-    this._value = v;
+    this.values = v;
   }
 
   @HostListener('window:click')
@@ -108,10 +108,19 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     this.optionClicked = false;
   }
 
-  onSelectContainerClick(event) {
+  onSelectContainerClick(event: any) {
     this.selectContainerClicked = true;
     if (!this.clearClicked) {
       this.toggleDropdown();
+    }
+
+    const x = fromEvent(document, 'click');
+    if (this.isDropDownOpen) {
+      x.pipe(take(1)).subscribe(() => {
+        if (this.filterInput !== undefined) {
+          this.filterInput.nativeElement.focus();
+        }
+      });
     }
   }
 
@@ -119,7 +128,6 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     this.optionSubject.subscribe(item => {
       this.filteredOptions = item;
     });
-    this.isAllChecked = this.isAllSelect;
     this.filteredOptions = [...this.options];
   }
 
@@ -133,48 +141,66 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
     }
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    this.handleInputChanges(changes);
     this.selectedAccounts = [];
     this.optionSubject.next(this.options);
     if (this.isAllSelect) {
-      this.options.map(option => {
+      this.options.filter(opt => {
+        return opt.value !== 'ALL';
+      }).map(option => {
         option.checked = true;
+        this.selectedAccounts.push(option.value);
       });
     } else {
-      this.options.map(option => {
+      this.options.filter(opt => {
+        return opt.value !== 'ALL';
+      }).map(option => {
         option.checked = false;
       });
     }
-    /*if (this.isDropDownOpen) {
-      this.filterInput.changes.subscribe(res => {
-        console.log(res.first.nativeElement);
-      });
-    }*/
   }
 
-  private toggleDropdown() {
-    /*console.log('isDropDownOpen', this.isDropDownOpen);
-    console.log('multiple', this.multiple);*/
-    if (this.multiple) {
-      this.isDropDownOpen = true;
-    } else {
-      if (!this.isDropDownOpen) {
-        this.openDropdown();
-      } else {
-        this.closeDropdown();
+  private handleInputChanges(changes: SimpleChanges) {
+    const optionsChanged: boolean = changes.hasOwnProperty('options');
+    const noFilterChanged: boolean = changes.hasOwnProperty('noFilter');
+    const placeholderChanged: boolean = changes.hasOwnProperty('placeholder');
+
+    if (optionsChanged) {
+      if (changes.options.currentValue.length > 0) {
+        if (changes.options.currentValue[0].value === 'ALL') {
+          this.isAllSelect = true;
+          this.isChangeSelectListPlaceHolder = true;
+          this.allPlaceholder = changes.options.currentValue[0].value;
+        } else {
+          this.isAllSelect = false;
+        }
       }
     }
-    // console.log('isDropDownOpen', this.isDropDownOpen);
+    if (optionsChanged || noFilterChanged) {
+    }
+    if (placeholderChanged) {
+    }
+  }
+
+  public checkDropdownToggle(ev) {
+    if (this.multiple) {
+      ev.stopPropagation();
+    }
+  }
+
+
+  public toggleDropdown() {
+    if (!this.isDropDownOpen) {
+      this.openDropdown();
+    } else {
+      this.closeDropdown();
+    }
   }
 
   private openDropdown() {
     if (!this.isDropDownOpen) {
       this.isDropDownOpen = true;
-      /*setTimeout(() => {
-          if (this.multiple) {
-              this.filterInput.nativeElement.focus();
-          }
-      });*/
     }
   }
 
@@ -212,50 +238,59 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   selectAccount(ev, account) {
-    this.isDropDownOpen = true;
-    if (ev.checked) {
-      this.selectedAccounts.push(account.value);
-      account.checked = true;
+    if (account.value === 'ALL') {
+      this.allChecked(ev);
     } else {
-      this.selectedAccounts.splice(this.selectedAccounts.indexOf(account.value), 1);
-      account.checked = false;
-    }
-    this.isAllChecked = this.options.every(option => {
-      return option.checked;
-    });
+      if (ev.checked) {
+        this.selectedAccounts.push(account.value);
+        account.checked = true;
+      } else {
+        this.selectedAccounts.splice(this.selectedAccounts.indexOf(account.value), 1);
+        account.checked = false;
+      }
+      this.isAllSelect = this.options.filter(option => {
+        return option.value !== 'ALL';
+      }).every(value => {
+        return value.checked;
+      });
 
-    this.isChangeSelectListPlaceHolder = this.options.some(option => {
-      return option.checked;
-    });
-    this.checkedItemCount();
-    this.writeValue(this.selectedAccounts);
-    return this.selected.emit(this.selectedAccounts);
+      this.isChangeSelectListPlaceHolder = this.options.some(option => {
+        return option.checked;
+      });
+      // console.log(this.selectedAccounts);
+      this.checkedItemCount();
+      this.allPlaceholder = undefined;
+      this.writeValue(this.selectedAccounts);
+      return this.selected.emit(this.selectedAccounts);
+    }
   }
 
   allChecked(ev) {
+    this.selectedAccounts = [];
     if (ev.checked) {
+      this.isAllSelect = true;
       this.filteredOptions.map(option => {
         option.checked = true;
       });
-      this.isAllChecked = true;
-      this.writeValue('ALL');
-      this.selected.emit('ALL');
+      this.filteredOptions.map(option => {
+        if (option.value !== 'ALL') {
+          this.selectedAccounts.push(option.value);
+        }
+      });
+      this.writeValue(this.selectedAccounts);
+      this.selected.emit(this.selectedAccounts);
     } else {
-      this.selectedAccounts = [];
+      this.isAllSelect = false;
       this.filteredOptions.map(option => {
         option.checked = false;
       });
-      this.isAllChecked = false;
       this.writeValue([]);
       this.selected.emit([]);
     }
     this.isChangeSelectListPlaceHolder = this.options.some(option => {
       return option.checked;
     });
-  }
-
-  clickedInput(ev) {
-    ev.stopPropagation();
+    this.checkedItemCount();
   }
 
   /*
@@ -264,16 +299,26 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
   checkedItemCount() {
     let count = 0;
     this.filteredOptions.map(option => {
-      if (option.checked) {
+      if (option.value !== 'ALL' && option.checked) {
         count++;
       }
     });
     return count;
   }
+
+  clickedInput(ev) {
+    ev.stopPropagation();
+  }
+
+
   /* NOT MULTIPLE */
 
   getOneClickedAccount(ev) {
+    this.isDropDownOpen = false;
+    this.isSelectedAnItem = true;
     this.selectedOption = ev;
+    this.allPlaceholder = undefined;
+    this.toggleDropdown();
     this.isChangeSelectListPlaceHolder = true;
     this.selected.emit(ev.value);
     this.writeValue(ev.value);
@@ -281,12 +326,20 @@ export class Ng2SelectListComponent implements OnInit, AfterViewInit, OnDestroy,
 
   getOneClickedAll(ev) {
     this.selectedOption = ev;
+    this.isSelectedAnItem = false;
     this.isChangeSelectListPlaceHolder = true;
     this.selected.emit(ev.value);
     this.writeValue(ev.value);
   }
 
-  ngOnDestroy(): void {
+  clearSelectedItem() {
+    this.isChangeSelectListPlaceHolder = false;
+    this.isSelectedAnItem = false;
+    this.toggleDropdown();
+    this.deSelected.emit('');
+    this.writeValue('');
   }
 
+  ngOnDestroy(): void {
+  }
 }

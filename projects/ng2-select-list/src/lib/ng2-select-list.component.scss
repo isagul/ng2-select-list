@@ -1,28 +1,54 @@
-
-
 #multiple-select {
   display: block;
-  width: 50%;
+  width: 280px;
   border: 1px solid gainsboro;
-  // height: 33px;
+  height: 33px;
   border-radius: 3px;
   color: dimgray;
   font-size: 15px;
-  margin-left: auto;
-  margin-right: auto;
   > div {
+    position: relative;
+    padding-top: 5px;
     padding-left: 10px;
     display: flex;
+    margin-bottom: 12px;
     flex-direction: row;
     justify-content: space-between;
     p {
       font-size: 14px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: 3px;
+      margin-bottom: 0;
     }
-    i {
-      margin-right: 5px;
-      margin-top: 5px;
+    .fa-times {
+      right: 35px;
+      position: absolute;
+      padding: 8px;
+      font-size: 18px;
+      margin-top: -7px;
+      &:hover {
+        background-color: lightgrey;
+      }
+    }
+    .fa-caret-up, .fa-caret-down {
+      font-size: 18px;
+      margin-top: -5px;
+      height: 31px;
+      padding-right: 10px;
+      padding-left: 10px;
+      padding-top: 6px;
+      &:hover {
+        background-color: lightgrey;
+      }
+    }
+    .action-icons {
+      .close {
+        margin-right: 5px;
+      }
+      i {
+        &:hover {
+          // background-color: lightgray;
+        }
+      }
     }
   }
   ul {
@@ -32,14 +58,15 @@
     padding-left: 0;
     background-color: white;
     overflow-y: scroll;
-    margin-bottom: 0;
-    margin-top: 0;
-    height: 27vh;
+    overflow-x: hidden;
+    height: 20vh;
+    margin-top: -6px;
     border: 1px solid gainsboro;
 
     li {
-      padding:10px 0 10px 10px;
-      //padding-bottom: 4px;
+      padding-left: 10px;
+      padding-top: 8px;
+      padding-bottom: 8px;
     }
     .list-input-filter {
       margin:2px;
@@ -52,18 +79,34 @@
     }
     .not-multiple {
       padding-left: 10px;
+      font-size:13px;
+    }
+    .multiple {
+      font-size:13px;
     }
   }
 
   .result-div {
     li {
+      transition: background-color 0.2s ease;
+      .mat-checkbox {
+        margin-right: 10px;
+      }
       &:hover {
         background-color: cornflowerblue;
-        color: white;
         cursor: pointer;
         label {
           color:white;
+          &:hover {
+            cursor: pointer;
+          }
+          span {
+            &:after {
+              border: solid white;
+            }
+          }
         }
+
       }
     }
   }
@@ -73,20 +116,18 @@
     overflow-y: auto;
     li {
       font-size:13px;
+      padding-top: 8px;
     }
   }
 
-  #filterInput {
-    height:25px;
-    padding: 4px 4px 4px 8px;
-    width:92%;
+  .filterInput {
+    height:35px;
+    width: 95%;
+    padding: 0 4px 0 8px;
   }
 
   &:hover{
     cursor: pointer;
-  }
-  &:focus {
-    outline: 0;
   }
 }
 

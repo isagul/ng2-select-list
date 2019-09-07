@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   formElements: FormGroup; // form elements.
   title = 'ng-select-list';
   public accountList = [
+    {value: 'ALL', label: 'ALL', checked: false},
     {value: 100, label: 'test100', checked: false},
     {value: 200, label: 'test200', checked: false},
     {value: 300, label: 'test300', checked: false},

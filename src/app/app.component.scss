@@ -6,9 +6,9 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 5px;
+  justify-items: center;
   div {
     min-height: 150px;
-    border: 1px solid lightgray;
     padding-bottom: 10px;
     border-radius: 3px;
   }
